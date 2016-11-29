@@ -1,0 +1,22 @@
+Template: kit-servicios-client/user_pass
+Type: password
+Default: k1ts3rv1c10s
+Description: Contraseña para el usuario que ejecutara la aplicacion:
+ La ejecucion de este sistema requiere de usuario de nombre kds.
+ .
+ Si deja este campo vacío, la contaseña por defecto sera "k1ts3rv1c10s".
+
+Template: kit-servicios-client/key_ssh
+Type: string
+Default: 
+Description: Ip del Servidor:
+ La aplicacion necesita la llave del servidor para poder realizar
+ la instalacion de los servicios.
+ .
+ Para obtener la llave del servidor por favor ingrese la direccion
+ ip donde se instalo el paquete kit-servicios, ejemplo:
+ 192.14.106.199
+ .
+ Escriba la direccion en el campo vacío que aqui se le presenta.
+ .
+ Si deja este campo vacío, la instalacion quedara incompleta.

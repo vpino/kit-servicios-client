@@ -1,0 +1,46 @@
+#!/bin/bash -e
+#
+# ==============================================================================
+# PAQUETE: kit-servicios-client
+# ARCHIVO: postrm
+# DESCRIPCIÓN: Revierte los cambios hechos por el paquete en los scripts del
+#              mantenedor, de forma tal de asegurarse que el sistema quede
+#              como estaba antes de su instalación.
+# COPYRIGHT:
+#  (C) 2016 Victor Pino <victopin0@gmail.com>
+# LICENCIA: GPL3
+# ==============================================================================
+#
+# Este programa es software libre. Puede redistribuirlo y/o modificarlo bajo los
+# términos de la Licencia Pública General de GNU (versión 3).
+
+case "$1" in
+    remove|abort-install|abort-upgrade|disappear)
+
+        . /usr/share/debconf/confmodule
+        echo "Eliminando la data de la BD de debconf"
+        db_purge
+
+        echo "Borrando kds de los sudoers" 
+        sed -ie '/.*kds.*$/d' /etc/sudoers
+
+        echo "Eliminado el usuario KDS"
+        deluser kds --remove-home || true 
+    
+    ;;
+
+    purge|failed-upgrade)
+
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+
+
+#DEBHELPER#
+
+exit 0

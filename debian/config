@@ -1,0 +1,36 @@
+#!/bin/sh
+
+set -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+db_input high kit-servicios-client/user_pass || true
+db_go
+
+adduser --system --shell /bin/bash --gecos 'KDS system user' --group --disabled-password --quiet --home /home/kds kds || true
+
+# Check their answer.
+db_get kit-servicios-client/user_pass
+if [ "$RET" ]; then
+    # Poor misguided one..
+    echo "kds:$RET" | chpasswd
+
+    echo "kds ALL=(ALL:ALL) ALL " >> /etc/sudoers
+
+    db_input high kit-servicios-client/key_ssh || true
+    db_go
+
+    db_get kit-servicios-client/key_ssh
+    if [ "$RET" ]; then
+            
+        mkdir -p /home/kds/.ssh/ || true 
+        touch /home/kds/.ssh/authorized_keys || true
+        
+        URL=$(curl -X GET "http://$RET/ServiceKeyResource/" | python -c "import json,sys;obj=json.load(sys.stdin);print obj['ssh'];")
+
+        echo "$URL" >> /home/kds/.ssh/authorized_keys
+        
+    fi
+
+fi

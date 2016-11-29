@@ -1,0 +1,14 @@
+Source: kit-servicios-client
+Section: metapackages
+Priority: optional
+Maintainer: Victor Pino <victopin0@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Homepage: http://gitlab.canaima.softwarelibre.gob.ve/canaima-gnu-linux/kit-servicios-client
+
+Package: kit-servicios-client
+Architecture: all
+Pre-Depends: dpkg (>= 1.16.1), python2.7 | python2.6, adduser
+Depends: ${misc:Depends}, openssh-server, sudo, python-apt, aptitude, curl
+Description: Cliente Kit de servicios 
+ Este paquete instala el componente Cliente de KDS
